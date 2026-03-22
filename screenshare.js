@@ -28,7 +28,7 @@ peer.on('connection', (conn) => {
 //streamer
 async function startStream() {
     try {
-
+        alert("success")
         const constraints = {
             video: {
                 width: { ideal: 1280},
