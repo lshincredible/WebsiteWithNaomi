@@ -6,6 +6,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 </head>
 <body>
@@ -47,11 +48,15 @@
 
     <div id="message-board" class="content">
         <h2>Message board</h2>
-        <p>This is the message board</p>
+        <input class="message-board-input" type="text" id="message-board-name-input" placeholder="Enter name">
+        <input class="message-board-input" type="text" id="message-board-message-input" placeholder="Enter message">
+        <button class="message-board-button" onclick="sendMessage()">Send</button>
+        <p class="messages" id="messages-container"></p>
     </div>
 
 
 </body>
     <script src="tabber.js"></script>
+    <script src="messageboard.js"></script>
     <script src="screenshare.js"></script>
 </html>

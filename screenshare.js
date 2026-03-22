@@ -27,6 +27,10 @@ peer.on('connection', (conn) => {
 
 //streamer
 async function startStream() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getDisplayMedia) {
+        alert("Screen sharing is not supported on this browser or connection (Requires HTTPS).");
+        return;
+    }
     try {
         alert("success")
         const constraints = {
@@ -35,7 +39,7 @@ async function startStream() {
                 height: { ideal: 720},
                 frameRate: { max: 30}
             },
-            audio: true
+            audio: false
         };
         localStream = await navigator.mediaDevices.getDisplayMedia(constraints);
         const videoElement = document.getElementById('preview');
@@ -101,24 +105,6 @@ function copyID() {
     });
 }
 
-
-
-
-/*
-
-async function startCapture() {
-    try {
-        const captureStream = await navigator.mediaDevices.getDisplayMedia({
-            video: true,
-            audio: true
-        });
-        const videoElement = document.getElementById("preview");
-        videoElement.srcObject = captureStream;
-    } catch(err)
-    {
-        console.error("Error: " + err);
-    }
-
-}
-
-*/
+window.onbeforeunload = () => {
+    peer.destroy();
+};
