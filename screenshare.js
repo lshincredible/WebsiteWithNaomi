@@ -34,12 +34,8 @@ async function startStream() {
     try {
         alert("success")
         const constraints = {
-            video: {
-                width: { ideal: 1280},
-                height: { ideal: 720},
-                frameRate: { max: 30}
-            },
-            audio: false
+            video: true,
+            audio: true
         };
         localStream = await navigator.mediaDevices.getDisplayMedia(constraints);
         const videoElement = document.getElementById('preview');
