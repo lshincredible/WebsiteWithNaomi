@@ -66,6 +66,23 @@ function connectToOther()
     })
 }
 
+function copyID() {
+    const idText = document.getElementById('my-id').innerText;
+    const btn = event.target; // Gets the button that was clicked
+
+    navigator.clipboard.writeText(idText).then(() => {
+        const originalText = btn.innerText;
+        btn.innerText = "Copied!";
+        btn.style.backgroundColor = "#859dc6";
+
+        // Change it back after 2 seconds
+        setTimeout(() => {
+            btn.innerText = originalText;
+            btn.style.backgroundColor = "";
+        }, 2000);
+    });
+}
+
 
 /*
 
