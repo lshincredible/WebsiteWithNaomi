@@ -28,8 +28,16 @@ peer.on('connection', (conn) => {
 //streamer
 async function startStream() {
     try {
-        localStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
-        alert("Screen capture started! Send ID to other person.");
+
+        const constraints = {
+            video: {
+                width: { ideal: 1280},
+                height: { ideal: 720},
+                frameRate: { max: 30}
+            },
+            audio: true
+        };
+        localStream = await navigator.mediaDevices.getDisplayMedia(constraints);
         const videoElement = document.getElementById('preview');
         videoElement.srcObject = localStream;
         videoElement.style.display = 'block';
