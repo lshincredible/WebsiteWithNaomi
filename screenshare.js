@@ -10,6 +10,8 @@ peer.on('open', (id) => {
 peer.on('call', (call) => {
     call.answer(localStream);
 
+    console.log("answered call");
+
     call.on('stream', (remoteStream) => {
 
     })
@@ -23,6 +25,8 @@ async function startStream() {
         const videoElement = document.getElementById('preview');
         videoElement.srcObject = localStream;
         videoElement.style.display = 'block';
+
+        console.log("starting stream");
     } catch(err)
     {
         console.log(err);
@@ -33,7 +37,22 @@ async function startStream() {
 function connectToOther()
 {
     const friendId = document.getElementById('remote-id').value;
+
+    if(!friendId)
+    {
+        alert("Please enter a friend's ID first!");
+        return;
+    }
+
     const call = peer.call(friendId, null)
+
+    if(!call)
+    {
+        alert("Failed to initialize the call, check the friend's ID.");
+        return;
+    }
+
+    console.log("successful call, attempting to watch stream");
 
     call.on('stream', (remoteStream) => {
         const video = document.getElementById('remote-video');
