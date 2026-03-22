@@ -6,21 +6,24 @@ peer.on('open', (id) => {
    document.getElementById('my-id').innerText = id;
 });
 
-//sender (answer)
-peer.on('call', (call) => {
+peer.on('connection', (conn) => {
+   conn.on('data', (data) => {
+      console.log("Received message: ", data);
 
-    if(!localStream) {
-        alert("Someone's trying to watch, but you haven't begun your stream!1")
-        return;
-    }
-    call.answer(localStream);
+      if(data === 'request-stream')
+      {
+          if(!localStream)
+          {
+              alert("Someone joined, but you haven't started screensharing")
+              return;
+          }
+          console.log("Sending stream");
+          peer.call(conn.peer, localStream);
+      }
+   });
+});
 
-    console.log("answered call");
 
-    call.on('stream', (remoteStream) => {
-
-    })
-})
 
 //streamer
 async function startStream() {
@@ -32,6 +35,8 @@ async function startStream() {
         videoElement.style.display = 'block';
 
         console.log("starting stream");
+
+
     } catch(err)
     {
         console.log(err);
@@ -41,30 +46,33 @@ async function startStream() {
 //receiver
 function connectToOther()
 {
-    const friendId = document.getElementById('remote-id').value;
+    const friendId = document.getElementById('remote-id').value.trim();
 
     if(!friendId)
     {
-        alert("Please enter a friend's ID first!");
+        alert("Please enter the streamer's ID first!");
         return;
     }
+    const conn = peer.connect(friendId);
 
-    const call = peer.call(friendId, null)
+    conn.on('open', () => {
+        console.log("Connection open, requesting stream");
+        conn.send('request-stream');
+    })
+}
 
-    if(!call)
-    {
-        alert("Failed to initialize the call, check the friend's ID.");
-        return;
-    }
+peer.on('call', (incomingCall) => {
+    console.log("Receiving stream");
 
-    console.log("successful call, attempting to watch stream");
+    incomingCall.answer();
 
-    call.on('stream', (remoteStream) => {
+    incomingCall.on('stream', (remoteStream) => {
+        console.log("received stream");
         const video = document.getElementById('remote-video');
         video.style.display = 'block';
         video.srcObject = remoteStream;
-    })
-}
+    });
+});
 
 function copyID() {
     const idText = document.getElementById('my-id').innerText;
@@ -82,6 +90,8 @@ function copyID() {
         }, 2000);
     });
 }
+
+
 
 
 /*
