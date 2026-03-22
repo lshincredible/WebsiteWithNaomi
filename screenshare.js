@@ -1,5 +1,6 @@
 const peer = new Peer();
 let localStream;
+let activeCalls = [];
 
 //set id locally
 peer.on('open', (id) => {
@@ -18,9 +19,15 @@ peer.on('connection', (conn) => {
               return;
           }
           console.log("Sending stream");
-          peer.call(conn.peer, localStream);
+          const call = peer.call(conn.peer, localStream);
+          activeCalls.push(call);
       }
    });
+});
+
+peer.on('disconnect', () => {
+    document.getElementById("remote-video").style.display = "none";
+    console.log("Disconnected");
 });
 
 
@@ -41,6 +48,18 @@ async function startStream() {
         const videoElement = document.getElementById('preview');
         videoElement.srcObject = localStream;
         videoElement.style.display = 'block';
+        localStream.getVideoTracks()[0].onended = () => {
+            console.log("Stream ended");
+
+
+
+            activeCalls.forEach(call => {
+               if(call.open) call.close();
+            });
+
+            document.getElementById("preview").style.display = "none";
+
+        };
 
         console.log("starting stream");
 
@@ -69,6 +88,7 @@ function connectToOther()
         console.log("Connection open, requesting stream");
         conn.send('request-stream');
     })
+    activeCalls.push(conn);
 }
 
 peer.on('call', (incomingCall) => {
@@ -81,6 +101,13 @@ peer.on('call', (incomingCall) => {
         const video = document.getElementById('remote-video');
         video.style.display = 'block';
         video.srcObject = remoteStream;
+    });
+
+    incomingCall.on('close', () => {
+       console.log("stream has been closed");
+       const video = document.getElementById('remote-video');
+       video.style.display = 'none';
+       video.srcObject = null;
     });
 });
 
@@ -98,6 +125,17 @@ function copyID() {
             btn.innerText = originalText;
             btn.style.backgroundColor = "";
         }, 2000);
+    });
+}
+
+function stopWatchingStream()
+{
+    console.log("stopWatchingStream");
+    activeCalls.forEach(call => {
+        call.close();
+        const video = document.getElementById('remote-video');
+        video.style.display = 'none';
+        video.srcObject = null;
     });
 }
 

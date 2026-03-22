@@ -77,7 +77,6 @@ function renderMessages(data) {
         container.appendChild(msgDiv);
     });
 
-    container.scrollTop = container.scrollHeight;
 }
 
 fetchMessages()
