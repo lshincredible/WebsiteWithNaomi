@@ -39,7 +39,6 @@ async function startStream() {
         return;
     }
     try {
-        alert("success")
         const constraints = {
             video: true,
             audio: true
@@ -101,6 +100,7 @@ peer.on('call', (incomingCall) => {
         const video = document.getElementById('remote-video');
         video.style.display = 'block';
         video.srcObject = remoteStream;
+        document.getElementById("stop-watching").style.display = 'block';
     });
 
     incomingCall.on('close', () => {
@@ -136,6 +136,7 @@ function stopWatchingStream()
         const video = document.getElementById('remote-video');
         video.style.display = 'none';
         video.srcObject = null;
+        document.getElementById("stop-watching").style.display = 'none';
     });
 }
 

@@ -32,20 +32,22 @@
     <div id="stream" class="content">
 
         <h2>Stream</h2>
-        <h3> Your ID: <span id="my-id">...loading...</span></h3>
-        <button onclick="copyID()">Copy</button>
+        <div id="copyID">
+            Your ID: <span id="my-id">...loading...</span>
+            <button class="stream-button" onclick="copyID()">Copy</button>
+        </div>
 
         <div style="margin: 10px 0;">
             <input type="text" id="remote-id" placeholder="Enter other person's ID">
-            <button onclick="connectToOther()">Watch their screen</button>
+            <button class="stream-button" onclick="connectToOther()">Watch their screen</button>
         </div>
 
         <video class="video" id="preview" autoplay muted playsinline style="width: 100%; max-width: 800px; border-radius: 10px;"></video>
-        <button id="share-button" onclick="startStream()">Share My Screen</button>
+        <button class="stream-button" id="share-button" onclick="startStream()">Share My Screen</button>
 
         <hr>
         <video class="video" id="remote-video" autoplay controls playsinline style="width: 100%; border: 2px solid white;"></video>
-        <button onclick="stopWatchingStream()">Stop watching</button>
+        <button class="stream-button" id="stop-watching" onclick="stopWatchingStream()">Stop watching</button>
     </div>
 
     <div id="message-board" class="content">
