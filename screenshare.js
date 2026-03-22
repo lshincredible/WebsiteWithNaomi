@@ -8,6 +8,11 @@ peer.on('open', (id) => {
 
 //sender (answer)
 peer.on('call', (call) => {
+
+    if(!localStream) {
+        alert("Someone's trying to watch, but you haven't begun your stream!1")
+        return;
+    }
     call.answer(localStream);
 
     console.log("answered call");
