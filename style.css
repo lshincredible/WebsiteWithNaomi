@@ -1,0 +1,71 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background-image: linear-gradient(to bottom right, #859dc6, #fea073, #c13d6f);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.content {
+    display: none;
+    padding: 20px;
+    border: 1px solid #ccc;
+}
+
+.content.active {
+    display: block;
+}
+
+.tabs {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    cursor: pointer;
+    border: none;
+    background: transparent;
+    color: white;
+    border-bottom: 3px solid transparent;
+    transition: all 0.3s ease;
+    position: relative
+}
+
+.tab-btn::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 3px;
+    bottom: 0;
+    left: 50%;
+    background: white;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.tab-btn:hover {
+    border-bottom: 3px solid rgb(255, 255, 255, 0.2)
+}
+
+.tab-btn.active {
+    color: white;
+    font-weight: bold;
+}
+
+.tab-btn.active::after {
+    width: 80%;
+}
+
+.video {
+    display: none;
+}

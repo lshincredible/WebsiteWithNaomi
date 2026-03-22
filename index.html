@@ -1,10 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/peerjs@1.5.4/dist/peerjs.min.js"></script>
+
 </head>
 <body>
-    Test
+    <div class="tabs">
+        <button class="tab-btn active" data-target="home">Home</button>
+        <button class="tab-btn" data-target="games">Games</button>
+        <button class="tab-btn" data-target="stream">Stream</button>
+    </div>
+
+    <div id="home" class="content active">
+        <h2>Home</h2>
+        <p>Hi babe! I love you 🥰</p>
+    </div>
+
+    <div id="games" class="content">
+        <h2>Games</h2>
+        <p>This is games</p>
+    </div>
+
+    <div id="stream" class="content">
+
+        <h2>Stream</h2>
+        <h3> Your ID: <span id="my-id">...loading...</span></h3>
+
+        <div style="margin: 10px 0;">
+            <input type="text" id="remote-id" placeholder="Enter other person's ID">
+            <button onclick="connectToOther()">Watch their screen</button>
+        </div>
+
+        <video class="video" id="preview" autoplay playsinline style="width: 100%; max-width: 800px; border-radius: 10px;"></video>
+        <button onclick="startStream()">Share My Screen</button>
+
+        <hr>
+        <video class="video" id="remote-video" autoplay playsinline style="width: 100%; border: 2px solid white;"></video>
+    </div>
+
+
 </body>
+    <script src="tabber.js"></script>
+    <script src="screenshare.js"></script>
 </html>
